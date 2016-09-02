@@ -248,7 +248,7 @@ VCOS_STATUS_T gx_priv_render_text(GX_DISPLAY_T *disp,
    vgDestroyPaint(fg);
 
    if (vgGetError() != 0) {
-        GC_LOG("Error drawing %d", vgGetError)
+        GC_LOG("Error drawing %d", vgGetError);
    }
    vcos_assert(vgGetError() == 0);
    vgSeti(VG_SCISSORING, VG_FALSE);
