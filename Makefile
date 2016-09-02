@@ -39,3 +39,4 @@ clean:
 
 install:
     cp poptart /usr/local/bin/poptart
+
