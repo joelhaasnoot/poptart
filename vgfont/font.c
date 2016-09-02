@@ -65,7 +65,7 @@ static struct
    const char *file;
    void *mem;
    size_t len;
-} default_font = { "Roboto-Regular.ttf" };
+} default_font = { "Vera.ttf" };
 
 /** An entry in our list of fonts
   */
