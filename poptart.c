@@ -385,9 +385,6 @@ int main(int argc, char *argv[]) {
          render_toast_scroll(img, img_w, img_h, text, text_size, 
             fg_rgba, bg_rgba, scroll_update, scroll_step, seconds_duration);
       }
-
-      // Clear existing
-      int32_t s = graphics_resource_fill(img, 0, 0, img_w, img_h, bg_rgba);
       
       if (command) free(text);
       ++loopcount;
