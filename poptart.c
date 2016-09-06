@@ -200,7 +200,7 @@ int32_t render_toast_scroll(
   if (s != 0) return s;
   int32_t swidth = width;
   int32_t x_offset = img_w;
-  const int32_t y_offset = img_h - height + 76;
+  const int32_t y_offset = 15 // Bottom: img_h + 76 - height
 
   struct timeval init;
   gettimeofday(&init, NULL);
@@ -216,7 +216,7 @@ int32_t render_toast_scroll(
     }
       
     s = render_toast(
-        img, img_w, img_h/2, x_offset, y_offset, text, text_size, fg_rgba, bg_rgba);
+        img, img_w, img_h, x_offset, y_offset, text, text_size, fg_rgba, bg_rgba);
     if (s != 0) return s;
       
     x_offset -= scroll_step;
@@ -382,7 +382,7 @@ int main(int argc, char *argv[]) {
          render_toast_static(img, img_w, img_h, text, text_size, 
             fg_rgba, bg_rgba, seconds_duration);
       } else {
-         render_toast_scroll(img, img_w, img_h, text, text_size, 
+         render_toast_scroll(img, img_w, img_h, text, text_size,
             fg_rgba, bg_rgba, scroll_update, scroll_step, seconds_duration);
       }
       

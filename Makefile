@@ -38,5 +38,5 @@ clean:
 	@rm -f vgfont/libvgfont.a
 
 install:
-    cp poptart /usr/local/bin/poptart
+	cp poptart /usr/local/bin/poptart
 
