@@ -200,7 +200,7 @@ int32_t render_toast_scroll(
   if (s != 0) return s;
   int32_t swidth = width;
   int32_t x_offset = img_w;
-  const int32_t y_offset = 15; // Bottom: img_h + 76 - height
+  const int32_t y_offset = 10; // Bottom: img_h + 76 - height
 
   struct timeval init;
   gettimeofday(&init, NULL);
