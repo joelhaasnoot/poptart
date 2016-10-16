@@ -276,7 +276,7 @@ void print_help(void) {
 "poptart to loop and repeatedly call the command string.\n"
 "\n"
 "Other recognized OPTION flags:\n"
-"  -h         Show this help\n"/
+"  -h         Show this help\n"
 "  -s SIZE    Set text font size\n"
 "  -p POS     Set the location of the ticker, TOP or BOTTOM\n"
 "  -t SEC     Set duration for string to be displayed\n"
