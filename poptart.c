@@ -203,9 +203,9 @@ int32_t render_toast_scroll(
   int32_t x_offset = img_w;
   int32_t y_offset;
   if (pos == 0) {
-    y_offset = 10; // Top: 10 at 1920x1080 Bottom: img_h + 76 - height
+    y_offset = 10;
   } else {
-    y_offset = img_h + 76 - height;
+    y_offset = img_h - height + 10;
   }
 
   struct timeval init;
@@ -247,9 +247,9 @@ int32_t render_toast_static(
   const int32_t x_offset = ((int32_t) img_w - (int32_t) width) / 2;
   uint32_t y_offset;
   if (pos == 0) {
-       y_offset = 10; // Top: 10 at 1920x1080 Bottom: img_h + 76 - height
+       y_offset = 10;
   } else {
-       y_offset = img_h + 76 - height;
+       y_offset = img_h - height + 10;
   }
 
   s = render_toast(img, img_w, img_h, x_offset, y_offset, text, text_size, fg_rgba, bg_rgba);
@@ -276,7 +276,7 @@ void print_help(void) {
 "poptart to loop and repeatedly call the command string.\n"
 "\n"
 "Other recognized OPTION flags:\n"
-"  -h         Show this help\n"
+"  -h         Show this help\n"/
 "  -s SIZE    Set text font size\n"
 "  -p POS     Set the location of the ticker, TOP or BOTTOM\n"
 "  -t SEC     Set duration for string to be displayed\n"
@@ -323,9 +323,8 @@ int main(int argc, char *argv[]) {
          case 'p':
              if (strcmp("BOTTOM", optarg) == 0) {
                 pos = 1;
-                fprintf(stderr, "Got position bottom");
              } else {
-                fprintf(stderr, "Got position top");
+                pos = 0;
              }
              break;
          case 'f':
