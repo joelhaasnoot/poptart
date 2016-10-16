@@ -321,13 +321,11 @@ int main(int argc, char *argv[]) {
             command = optarg;
             break;
          case 'p':
-             fprintf(stderr, "Got position argument: ");
-             fprintf(stderr, optarg);
-             fprintf(stderr, "\n");
              if (strcmp("BOTTOM", optarg) == 0) {
                 pos = 1;
+                fprintf(stderr, "Got position bottom");
              } else {
-                pos = 0;
+                fprintf(stderr, "Got position top");
              }
              break;
          case 'f':
