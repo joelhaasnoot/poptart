@@ -189,7 +189,8 @@ double elapsed(struct timeval *init) {
 
 int32_t render_toast_scroll(
     const GRAPHICS_RESOURCE_HANDLE img, 
-    const uint32_t img_w, const uint32_t img_h, 
+    const uint32_t img_w, const uint32_t img_h,
+    const int pos,
     const char *text, const uint32_t text_size, 
     const uint32_t fg_rgba, const uint32_t bg_rgba,
     const double scroll_update, const int32_t scroll_step,
@@ -200,7 +201,12 @@ int32_t render_toast_scroll(
   if (s != 0) return s;
   int32_t swidth = width;
   int32_t x_offset = img_w;
-  const int32_t y_offset = 69; // Top: 10 at 1920x1080 Bottom: img_h + 76 - height
+  const int32_t y_offset;
+  if (pos == 0) {
+    y_offset = 10; // Top: 10 at 1920x1080 Bottom: img_h + 76 - height
+  } else {
+    y_offset = img_h + 76 - height;
+  }
 
   struct timeval init;
   gettimeofday(&init, NULL);
@@ -230,7 +236,8 @@ int32_t render_toast_scroll(
 
 int32_t render_toast_static(
     const GRAPHICS_RESOURCE_HANDLE img, 
-    const uint32_t img_w, const uint32_t img_h, 
+    const uint32_t img_w, const uint32_t img_h,
+    const int pos,
     const char *text, const uint32_t text_size, 
     const uint32_t fg_rgba, const uint32_t bg_rgba,
     const double seconds_duration) {
@@ -238,7 +245,12 @@ int32_t render_toast_static(
   int s = graphics_resource_text_dimensions_ext(img, text, 0, &width, &height, text_size);
   if (s != 0) return s;
   const int32_t x_offset = ((int32_t) img_w - (int32_t) width) / 2;
-  const uint32_t y_offset = img_h - height - 60;
+  const uint32_t y_offset;
+  if (pos == 0) {
+       y_offset = 10; // Top: 10 at 1920x1080 Bottom: img_h + 76 - height
+  } else {
+       y_offset = img_h + 76 - height;
+  }
 
   s = render_toast(img, img_w, img_h, x_offset, y_offset, text, text_size, fg_rgba, bg_rgba);
   if (s != 0) return s;
@@ -266,6 +278,7 @@ void print_help(void) {
 "Other recognized OPTION flags:\n"
 "  -h         Show this help\n"
 "  -s SIZE    Set text font size\n"
+"  -p POS     Set the location of the ticker, TOP or BOTTOM\n"
 "  -t SEC     Set duration for string to be displayed\n"
 "  -m PIX     Set the scroll step size.  By default, MESSAGE is displayed\n"
 "             centered and static.  If PIX is > 0, then MESSAGE scrolls right\n"
@@ -283,6 +296,7 @@ int main(int argc, char *argv[]) {
    double seconds_duration = 2; 
    uint32_t text_size = 20;
    int loop = 0;
+   int pos = 0; // 0 = top, 1 = bottom
    double scroll_update = 0.03;
    uint32_t scroll_step = 0; // 0 means render_toast_static, otherwise 
                              // render_toast_scroll
@@ -295,7 +309,7 @@ int main(int argc, char *argv[]) {
    int in;
    int c;
    opterr = 0;
-   while ((c = getopt(argc, argv, "b:c:f:hilm:n:s:t:")) != -1)
+   while ((c = getopt(argc, argv, "b:c:f:hilm:n:s:t:p:")) != -1)
       switch (c) {
          case 'b':
             if (sscanf(optarg, "%u,%u,%u,%u", &bg_r, &bg_g, &bg_b, &bg_a) != 4) {
@@ -306,6 +320,13 @@ int main(int argc, char *argv[]) {
          case 'c':
             command = optarg;
             break;
+         case 'p':
+             if (optarg == "BOTTOM") {
+                pos = 1;
+             } else {
+                pos = 0;
+             }
+             break;
          case 'f':
             if (sscanf(optarg, "%u,%u,%u,%u", &fg_r, &fg_g, &fg_b, &fg_a) != 4) {
                fprintf(stderr, "Failed to parse foreground RGBA.\n");
@@ -379,10 +400,10 @@ int main(int argc, char *argv[]) {
       
       // Draw the toast text
       if (!scroll_step) {
-         render_toast_static(img, img_w, img_h, text, text_size, 
+         render_toast_static(img, img_w, img_h, pos, text, text_size,
             fg_rgba, bg_rgba, seconds_duration);
       } else {
-         render_toast_scroll(img, img_w, img_h, text, text_size,
+         render_toast_scroll(img, img_w, img_h, pos, text, text_size,
             fg_rgba, bg_rgba, scroll_update, scroll_step, seconds_duration);
       }
       
