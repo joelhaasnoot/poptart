@@ -201,7 +201,7 @@ int32_t render_toast_scroll(
   if (s != 0) return s;
   int32_t swidth = width;
   int32_t x_offset = img_w;
-  const int32_t y_offset;
+  int32_t y_offset;
   if (pos == 0) {
     y_offset = 10; // Top: 10 at 1920x1080 Bottom: img_h + 76 - height
   } else {
@@ -245,7 +245,7 @@ int32_t render_toast_static(
   int s = graphics_resource_text_dimensions_ext(img, text, 0, &width, &height, text_size);
   if (s != 0) return s;
   const int32_t x_offset = ((int32_t) img_w - (int32_t) width) / 2;
-  const uint32_t y_offset;
+  uint32_t y_offset;
   if (pos == 0) {
        y_offset = 10; // Top: 10 at 1920x1080 Bottom: img_h + 76 - height
   } else {
@@ -321,7 +321,7 @@ int main(int argc, char *argv[]) {
             command = optarg;
             break;
          case 'p':
-             if (optarg == "BOTTOM") {
+             if (strcmp("BOTTOM", optarg)) {
                 pos = 1;
              } else {
                 pos = 0;
