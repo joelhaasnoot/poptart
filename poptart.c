@@ -321,7 +321,7 @@ int main(int argc, char *argv[]) {
             command = optarg;
             break;
          case 'p':
-             if (strcmp("BOTTOM", optarg)) {
+             if (strcmp("BOTTOM", optarg) == 0) {
                 pos = 1;
              } else {
                 pos = 0;
